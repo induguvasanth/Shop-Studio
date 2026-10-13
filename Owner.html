@@ -6,12 +6,12 @@
 <title>Shop Studio | Owner</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#0b1020;color:#f4f6ff;font:14px system-ui,Segoe UI,sans-serif}
-header{padding:14px 16px;background:#131b35;border-bottom:1px solid #2a3552;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
-.brand{font-size:22px;font-weight:800;color:#c8b2ff}.wrap{max-width:none;width:100%;margin:12px auto;padding:0 10px}
+header{padding:18px max(18px,calc((100vw - 1160px)/2));background:#131b35;border-bottom:1px solid #2a3552;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.brand{font-size:22px;font-weight:800;color:#c8b2ff}.wrap{width:100%;max-width:none;margin:16px auto;padding:0 12px}
 .top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.muted{color:#aab7d2}
 button{font:inherit;cursor:pointer;padding:10px 13px;border:0;border-radius:9px;background:#a38bff;color:#0e1220;font-weight:750}button.secondary{background:#2c3a5d;color:white}
 .card{background:#151e37;border:1px solid #2b3652;border-radius:16px;padding:16px;margin:14px 0}a{color:#b9c9ff;overflow-wrap:anywhere}
-iframe{display:block;width:100%;height:900px;min-height:75vh;border:1px solid #2b3652;border-radius:14px;background:#0b1020}
+#consoleViewport{width:100%;height:900px;overflow:hidden;border:1px solid #2b3652;border-radius:14px;background:#0b1020}iframe{display:block;width:1440px;height:1120px;border:0;background:#0b1020;transform-origin:top left}
 #qrCode{display:inline-block;background:white;padding:12px;border-radius:12px}#qrCode:empty{display:none}[hidden]{display:none!important}
 </style>
 <script src="shopstudio-config.js"></script>
@@ -22,13 +22,15 @@ iframe{display:block;width:100%;height:900px;min-height:75vh;border:1px solid #2
 <main class="wrap">
 <div class="top"><div><h1>Print orders</h1><p class="muted">Review documents, preview PDFs, and approve printing within Shop Studio.</p></div><div><button id="reload">↻ Refresh</button> <button id="qrToggle" class="secondary" aria-expanded="false">▦ Show customer QR</button></div></div>
 <section id="qrPanel" class="card" hidden><h2>Customer upload QR</h2><div id="qrCode"></div><p><a id="qrLink" target="_blank" rel="noopener"></a></p><p class="muted">Customers scan to upload documents. No owner credentials are included.</p></section>
-<p id="notice" class="muted" role="status">Loading protected owner dashboard below. Your owner login stays inside the protected Apps Script console.</p>
-<iframe id="ownerConsole" title="Shop Studio Protected Owner Console" referrerpolicy="strict-origin-when-cross-origin" src="https://script.google.com/macros/s/AKfycbzKNYkCnIX7JamFiDF_Ipk7ymmO3fMgwmt7rXeFnCOqEj-IFQ-DBE_xyrttk55mTjiswQ/exec?page=owner"></iframe>
+<p id="notice" class="muted" role="status">Owner dashboard is embedded below. The wider layout keeps the Actions column accessible without changing Apps Script.</p>
+<div id="consoleViewport"><iframe id="ownerConsole" title="Shop Studio Protected Owner Console" referrerpolicy="strict-origin-when-cross-origin" src="https://script.google.com/macros/s/AKfycbzKNYkCnIX7JamFiDF_Ipk7ymmO3fMgwmt7rXeFnCOqEj-IFQ-DBE_xyrttk55mTjiswQ/exec?page=owner"></iframe></div>
 </main>
 <script>
 'use strict';
 const $=id=>document.getElementById(id);
 const ownerUrl='https://script.google.com/macros/s/AKfycbzKNYkCnIX7JamFiDF_Ipk7ymmO3fMgwmt7rXeFnCOqEj-IFQ-DBE_xyrttk55mTjiswQ/exec?page=owner';
+function fitConsole(){const frame=$('ownerConsole'),viewport=$('consoleViewport');const scale=Math.min(1,viewport.clientWidth/1440);frame.style.transform='scale('+scale+')';viewport.style.height=Math.ceil(1120*scale)+'px'}
+window.addEventListener('resize',fitConsole);if(window.ResizeObserver)new ResizeObserver(fitConsole).observe($('consoleViewport'));fitConsole();
 $('reload').onclick=()=>{$('notice').textContent='Reloading owner console…';$('ownerConsole').src=ownerUrl+'&reload='+Date.now()};
 const customerUrl=new URL('Customer.html',location.href).href;
 $('qrLink').href=customerUrl;$('qrLink').textContent=customerUrl;
