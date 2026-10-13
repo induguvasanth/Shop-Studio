@@ -1,0 +1,9 @@
+{
+  "apps_script_url": "https://script.google.com/macros/s/AKfycbzKNYkCnIX7JamFiDF_Ipk7ymmO3fMgwmt7rXeFnCOqEj-IFQ-DBE_xyrttk55mTjiswQ/exec",
+  "agent_secret": "SAME_SECRET_AS_SCRIPT_PROPERTIES",
+  "bw_printer": "Brother DCP-L2541DW",
+  "color_printer": "Canon G3012",
+  "sumatra_pdf_path": "C:\\Program Files\\SumatraPDF\\SumatraPDF.exe",
+  "poll_seconds": 20,
+  "dry_run": true
+}

@@ -1,0 +1,12 @@
+SHOP STUDIO — SAFE SETUP AND TROUBLESHOOTING
+
+1. Open windows10-print-agent folder. Run SETUP-CONFIG-FIRST.cmd. This creates config.json from config.example.json only if config.json does not exist.
+2. Edit config.json locally. Replace SAME_SECRET_AS_SCRIPT_PROPERTIES with your actual AGENT_SECRET. Check Apps Script /exec URL, exact Windows printer names, SumatraPDF location. Never upload config.json to GitHub or share it.
+3. Install Python 3 and SumatraPDF on Windows 10. In Settings > Printers & scanners confirm the exact Brother and Canon names.
+4. Keep dry_run=true during setup. It intentionally prevents claiming/printing jobs. When printers are installed, online and tested, change dry_run=false. WARNING: Existing APPROVED jobs may be claimed immediately.
+5. From the agent folder run START-AGENT-BACKGROUND.cmd and inspect logs. If it fails, run python agent.py in a command prompt to read the error. The auto-start installer creates a shortcut; it does NOT print on its own or approve jobs.
+6. Only after a successful manual agent test, run INSTALL-HIDDEN-AUTOSTART.cmd.
+7. For GitHub update upload Owner.html and Customer.html, refresh Ctrl+Shift+R. Owner table has a separate Date / Time column (using existing created value); ID placeholders no longer appear as broken image icons.
+8. Embedded owner verification may still fail due to Google authentication/cookie restrictions. The protected owner console remains the secure fallback. Do not remove backend authorization.
+
+LIMITATIONS: The ZIP has not been tested on your Windows 10 printers or live Apps Script deployment. Printer names in example config are illustrative. The agent is configured for approved-job polling, not instant direct printing.
