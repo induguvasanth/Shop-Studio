@@ -22,8 +22,8 @@ button{font:inherit;cursor:pointer;padding:10px 13px;border:0;border-radius:9px;
 <main class="wrap">
 <div class="top"><div><h1>Print orders</h1><p class="muted">Review documents, preview PDFs, and approve printing within Shop Studio.</p></div><div><button id="reload">↻ Refresh</button> <button id="qrToggle" class="secondary" aria-expanded="false">▦ Show customer QR</button></div></div>
 <section id="qrPanel" class="card" hidden><h2>Customer upload QR</h2><div id="qrCode"></div><p><a id="qrLink" target="_blank" rel="noopener"></a></p><p class="muted">Customers scan to upload documents. No owner credentials are included.</p></section>
-<p id="notice" class="muted" role="status">Owner dashboard shown at full text size (no shrinking). If Actions are outside the visible area, scroll horizontally inside the dashboard.</p>
-<p class="muted" style="margin:8px 0">Full-size text mode. Long text wrapping depends on the embedded Owner Console; this outer page cannot change its table cells.</p>
+<p id="notice" class="muted" role="status">Full-size dashboard. Horizontal scrolling starts on the right to prioritize Actions.</p>
+<p class="muted" style="margin:8px 0">The table is inside Google Apps Script. Short Job IDs and text wrapping must be changed in OwnerConsole.html.</p>
 <div id="consoleViewport"><iframe id="ownerConsole" title="Shop Studio Protected Owner Console" referrerpolicy="strict-origin-when-cross-origin" src="https://script.google.com/macros/s/AKfycbzKNYkCnIX7JamFiDF_Ipk7ymmO3fMgwmt7rXeFnCOqEj-IFQ-DBE_xyrttk55mTjiswQ/exec?page=owner"></iframe></div>
 </main>
 <script>
@@ -38,6 +38,8 @@ function fitConsole(){
  frame.style.height='1450px';
  viewport.style.height='min(78vh, 1000px)';
  viewport.style.overflow='auto';
+ // Prefer the right side of the order table so Actions remain visible.
+ requestAnimationFrame(()=>{viewport.scrollLeft=viewport.scrollWidth-viewport.clientWidth;});
 }
 window.addEventListener('resize',fitConsole);
 fitConsole();
@@ -46,7 +48,11 @@ const customerUrl=new URL('Customer.html',location.href).href;
 $('qrLink').href=customerUrl;$('qrLink').textContent=customerUrl;
 let qrDrawn=false;
 $('qrToggle').onclick=()=>{const panel=$('qrPanel');panel.hidden=!panel.hidden;$('qrToggle').textContent=panel.hidden?'▦ Show customer QR':'▦ Hide customer QR';$('qrToggle').setAttribute('aria-expanded',String(!panel.hidden));if(!panel.hidden&&!qrDrawn){if(window.QRCode){new QRCode($('qrCode'),{text:customerUrl,width:210,height:210,correctLevel:QRCode.CorrectLevel.M});qrDrawn=true}else{$('qrCode').textContent='QR generator unavailable. Use the customer link.'}}};
-$('ownerConsole').addEventListener('load',()=>{$('notice').textContent='Owner console loaded. If you see a blank frame or Google sign-in is blocked, the browser may be restricting embedded Apps Script authentication.'});
+$('ownerConsole').addEventListener('load',()=>{
+ const viewport=$('consoleViewport');
+ viewport.scrollLeft=viewport.scrollWidth-viewport.clientWidth;
+ $('notice').textContent='Owner console loaded. Actions are prioritized on the right. Job ID shortening requires an OwnerConsole.html change.';
+});
 </script>
 </body>
 </html>
