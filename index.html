@@ -10,6 +10,20 @@
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="styles.css?build=1900" />
   <meta name="shop-build" content="11.8.0" />
+<style id="qr-clean-layout">
+#qrorders .qr-clean-shell{background:#0e1422;border:1px solid #303b51;border-radius:18px;padding:18px;min-width:0}
+#qrorders .qr-clean-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+#qrorders .qr-clean-head h2{margin:0;font-size:22px;color:var(--text,#f4f6ff)}
+#qrorders .qr-clean-head p{margin:5px 0 0;color:#9caecb;font-size:14px}
+#qrorders .qr-clean-settings{position:relative;margin-left:auto}
+#qrorders .qr-clean-settings summary{cursor:pointer;color:#b7c7e3;font-size:13px;padding:8px 12px;border:1px solid #3b4860;border-radius:9px;list-style:none}
+#qrorders .qr-clean-settings summary::-webkit-details-marker{display:none}
+#qrorders .qr-clean-config{position:absolute;z-index:8;right:0;top:calc(100% + 8px);width:min(430px,85vw);padding:14px;background:#18243a;border:1px solid #43516a;border-radius:12px;box-shadow:0 14px 40px #0008;display:grid;gap:8px}
+#qrorders .qr-clean-config input{width:100%;min-width:0;background:#0f1829;color:#f4f6ff;border:1px solid #43516a;border-radius:8px;padding:10px}
+#qrorders #qrOwnerFrame{display:block;width:100%;height:calc(100vh - 220px);min-height:690px;border:1px solid #34425b;border-radius:13px;background:#0b1020}
+#qrorders .qr-legacy-controls{display:none!important}
+@media(max-width:700px){#qrorders .qr-clean-shell{padding:9px}#qrorders #qrOwnerFrame{min-height:650px}}
+</style>
 </head>
 <body>
   <div class="app-shell">
@@ -437,10 +451,16 @@
       </section>
 
       <section class="section" id="qrorders">
-        <div class="panel tool-workspace">
-          <div class="workspace-head"><div><span class="eyebrow">SMART QR PRINT</span><h2>QR Print Orders</h2><p class="qr-muted">Review customer requests before they reach the printer.</p></div><div class="button-row"><button class="ghost-btn" id="qrOpenOwner">Open Owner Dashboard</button><button class="primary-btn" id="qrOpenCustomer">Customer Page</button></div></div>
-          <div class="qr-config"><label>Apps Script deployment URL <input id="qrScriptUrl" placeholder="https://script.google.com/macros/s/.../exec" /></label><button class="primary-btn" id="qrSaveUrl">Save on this computer</button><p class="qr-muted">The GitHub owner dashboard requires authenticated access; if Google blocks its connection, use the protected owner console link. Only a deployment URL is saved locally.</p></div>
-          <div class="qr-frame-wrap" style="padding:16px"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><strong>Owner Dashboard — in Shop Studio</strong><a href="Owner.html" target="_blank" rel="noopener" class="ghost-btn">Open owner in full screen ↗</a></div><p class="qr-muted">Owner dashboard is displayed below in this Shop Studio section. If Google blocks authentication in an embedded page, open the protected owner console in a separate tab.</p><iframe id="qrOwnerFrame" title="Shop Studio Owner Dashboard" src="Owner.html" loading="lazy" style="display:block;width:100%;min-height:740px;border:1px solid #37445c;border-radius:12px;background:#0b1020"></iframe></div>
+        <div class="qr-clean-shell">
+          <div class="qr-clean-head">
+            <div><h2>Print orders</h2><p>Review uploads and manage printing in one place.</p></div>
+            <details class="qr-clean-settings"><summary>Connection settings</summary>
+              <div class="qr-clean-config"><label for="qrScriptUrl">Apps Script URL</label><input id="qrScriptUrl" placeholder="https://script.google.com/macros/s/.../exec" />
+                <button class="primary-btn" id="qrSaveUrl" type="button">Save URL</button></div>
+            </details>
+          </div>
+          <div class="qr-legacy-controls" hidden aria-hidden="true"><button id="qrOpenOwner" type="button">Owner</button><button id="qrOpenCustomer" type="button">Customer</button></div>
+          <iframe id="qrOwnerFrame" title="Shop Studio print order management" src="Owner.html" loading="lazy"></iframe>
         </div>
       </section>
     </main>
