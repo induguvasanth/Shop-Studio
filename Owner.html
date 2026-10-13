@@ -7,12 +7,17 @@
 /* Keep the embedded owner table readable and its action area reachable. */
 .framewrap{height:calc(100dvh - 90px);min-height:680px;overscroll-behavior:contain}
 .framewrap iframe{display:block;width:100%;min-width:0;min-height:1600px}
+/* Clean owner toolbar; pending-row and Go-button colors are controlled inside OwnerConsole.html. */
+.toolbar{background:#131b35;border:1px solid #344361;border-radius:12px;padding:12px 14px;margin-bottom:12px}
+.toolbar-label{letter-spacing:.1px}.controls select{max-width:min(54vw,310px)}
+.framewrap{scrollbar-gutter:stable;overflow-x:auto}.framewrap iframe{min-height:1800px}
+@media(max-width:650px){.toolbar{padding:10px}.toolbar-label{font-size:18px}.controls{width:100%}.controls select{max-width:none;flex:1}}
 @media(max-width:650px){.framewrap{height:78dvh;min-height:520px}}
 </style><script src="shopstudio-config.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script></head><body>
 <main class="wrap"><div class="toolbar"><div class="toolbar-label">▣ Shop Studio <span style="font-weight:500;color:#b8c8e4">Owner</span></div><div class="controls"><select id="ownerAction" aria-label="Owner options"><option value="refresh">Refresh orders</option><option value="qr">Customer QR</option><option value="customer">Customer upload page</option><option value="settings">Connection settings</option><option value="full">Owner full screen</option></select><button id="go" type="button">Go →</button></div></div>
 <section id="settingsPanel" hidden><label for="ownerScriptUrl">Apps Script deployment URL</label><div class="settings-row"><input id="ownerScriptUrl" type="url" spellcheck="false" autocomplete="off" placeholder="https://script.google.com/macros/s/.../exec"><button id="saveConnection" type="button">Save connection</button></div><p id="settingsStatus" class="muted" role="status"></p></section>
 <section id="qrPanel" hidden><div id="qrCode"></div><p><a id="qrLink" target="_blank" rel="noopener"></a></p></section>
-<div id="consoleViewport" class="framewrap"><iframe id="ownerConsole" title="Shop Studio owner orders" referrerpolicy="strict-origin-when-cross-origin" src="https://script.google.com/macros/s/AKfycbzKNYkCnIX7JamFiDF_Ipk7ymmO3fMgwmt7rXeFnCOqEj-IFQ-DBE_xyrttk55mTjiswQ/exec?page=owner"></iframe></div><p id="notice" class="muted" role="status" hidden></p></main>
+<div id="consoleViewport" class="framewrap"><iframe id="ownerConsole" title="Shop Studio owner orders and pending actions" referrerpolicy="strict-origin-when-cross-origin" src="https://script.google.com/macros/s/AKfycbzKNYkCnIX7JamFiDF_Ipk7ymmO3fMgwmt7rXeFnCOqEj-IFQ-DBE_xyrttk55mTjiswQ/exec?page=owner"></iframe></div><p id="notice" class="muted" role="status" hidden></p></main>
 <script>
 'use strict';const $=id=>document.getElementById(id);
 const defaultBackend='https://script.google.com/macros/s/AKfycbzKNYkCnIX7JamFiDF_Ipk7ymmO3fMgwmt7rXeFnCOqEj-IFQ-DBE_xyrttk55mTjiswQ/exec';
